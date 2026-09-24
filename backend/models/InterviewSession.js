@@ -16,6 +16,23 @@ const interviewSessionSchema = new mongoose.Schema(
       enum: ["Fresher", "Junior", "Mid", "Senior"],
       default: "Fresher",
     },
+
+    interviewType: {
+      type: String,
+      enum: ["Technical", "Behavioral"],
+      default: "Technical",
+    },
+
+    topic: {
+      type: String,
+      default: "",
+    },
+
+    difficulty: {
+      type: String,
+      enum: ["Easy", "Medium", "Hard"],
+      default: "Medium",
+    },
     questions: [
       {
         question: {
