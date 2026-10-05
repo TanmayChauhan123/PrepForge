@@ -254,12 +254,36 @@ Evaluation Criteria:
 - Clarity
 - Understanding of the concept
 
-For behavioral questions, also consider:
-- Communication
-- Problem-solving
-- Teamwork
-- Professional judgment
-- Use of relevant examples
+First, identify the key requirements of the interview question.
+Then compare the candidate's answer against those requirements.
+
+STRICT SCORING RULES:
+- Score only what the candidate actually answered.
+- Do not assume or infer knowledge that the candidate did not demonstrate.
+- Do not give credit merely because the answer contains words related to the question.
+- If the answer is gibberish, random text, meaningless text, or does not form a meaningful response, score 0.
+- If the answer is completely unrelated to the question, score 0 or 1.
+- If the question has multiple parts and the candidate answers only one part, the score must not exceed 5.
+- If the candidate answers only a small portion of the question correctly, score 2-4.
+- A partially correct answer with meaningful understanding should generally score 5-7.
+- A strong answer that addresses all major requirements correctly should score 8-9.
+- A 10 should be reserved for an exceptionally complete, accurate, clear, and well-explained answer.
+- If the candidate provides incorrect information, reduce the score accordingly.
+- Do not reward irrelevant information.
+- Do not confuse confidence or writing quality with correctness.
+- For technical questions, verify the actual technical claims before assigning a high score.
+- For behavioral questions, evaluate the quality and relevance of the candidate's reasoning and examples.
+
+IMPORTANT:
+If the question asks multiple things, ALL major parts must be addressed for a high score.
+
+For example, if a question asks:
+1. What is X?
+2. What is Y?
+3. What is the difference between X and Y?
+4. What are their effects on Z?
+
+An answer addressing only item 1 must receive a low score, even if item 1 is explained well.
 
 Give a score from 0 to 10.
 
@@ -274,10 +298,10 @@ Rules:
 - score must be a number between 0 and 10
 - feedback must clearly explain what was done well
 - feedback must mention important missing or incorrect points when applicable
-- feedback should be constructive and useful for improvement
+- feedback must be constructive and useful for improvement
 - do not return markdown
 - do not return code fences
-- do not include any additional fields
+- do not include additional fields
 `;
 
       const aiResponse = await generateWithOllama(prompt);

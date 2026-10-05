@@ -1,4 +1,4 @@
-const generateWithOllama = async (prompt) => {
+const generateWithOllama = async (prompt, model = "llama3.1:8b") => {
   try {
     const response = await fetch("http://localhost:11434/api/generate", {
       method: "POST",
@@ -6,7 +6,7 @@ const generateWithOllama = async (prompt) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "qwen2.5:3b",
+        model: model,
         prompt: prompt,
         format: "json",
         stream: false,
