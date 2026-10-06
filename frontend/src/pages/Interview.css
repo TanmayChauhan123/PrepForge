@@ -1,0 +1,226 @@
+.interview-page {
+  min-height: 100vh;
+  padding: 28px 40px 60px;
+  background:
+    radial-gradient(
+      circle at 80% 5%,
+      rgba(124, 108, 255, 0.12),
+      transparent 30%
+    ),
+    #080b12;
+}
+
+.interview-container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+/* Header */
+
+.interview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 55px;
+}
+
+.interview-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #a49aff;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.interview-brand-logo {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 6px;
+  filter: drop-shadow(0 0 10px rgba(124, 108, 255, 0.35));
+}
+
+.interview-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  color: #35d49a;
+  background: rgba(53, 212, 154, 0.07);
+  border: 1px solid rgba(53, 212, 154, 0.16);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #35d49a;
+  box-shadow: 0 0 10px rgba(53, 212, 154, 0.8);
+}
+
+.interview-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 32px;
+}
+
+.interview-eyebrow {
+  margin-bottom: 7px;
+  color: #8d82ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.interview-intro h1 {
+  color: #f5f7fb;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.interview-subtitle {
+  margin-top: 10px;
+  color: #9aa5b5;
+  font-size: 13px;
+}
+
+.interview-progress {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 10px 14px;
+  color: #f5f7fb;
+  background: rgba(18, 25, 37, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.interview-progress strong {
+  color: #687386;
+  font-weight: 500;
+}
+
+@media (max-width: 700px) {
+  .interview-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.question-workspace {
+  padding: 28px;
+  margin-bottom: 20px;
+  background: rgba(18, 25, 37, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.15);
+}
+
+.question-label {
+  margin-bottom: 12px;
+}
+
+.question-label span {
+  color: #8d82ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.question-workspace h2 {
+  max-width: 900px;
+  color: #f5f7fb;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 22px;
+  line-height: 1.45;
+}
+
+.question-helper {
+  margin-top: 9px;
+  color: #687386;
+  font-size: 12px;
+}
+
+.interview-answer {
+  padding: 22px;
+  background: rgba(18, 25, 37, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  margin-bottom: 16px;
+}
+
+.answer-editor-label {
+  display: block;
+  margin-bottom: 10px;
+  color: #8d82ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.interview-answer textarea {
+  width: 100%;
+  min-height: 220px;
+  padding: 18px;
+  resize: vertical;
+  color: #f5f7fb;
+  background: #080b12;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.7;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.interview-answer textarea::placeholder {
+  color: #687386;
+}
+
+.interview-answer textarea:focus {
+  border-color: rgba(124, 108, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(124, 108, 255, 0.08);
+}
+.evaluate-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  padding: 12px 20px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #8171ff, #6956ed);
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(124, 108, 255, 0.16);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.evaluate-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(124, 108, 255, 0.25);
+}
+
+.evaluate-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
