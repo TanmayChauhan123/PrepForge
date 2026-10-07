@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Interview.css";
 import prepforgeLogo from "../assets/prepforge.jpg";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 function Interview() {
   const { sessionId } = useParams();
@@ -209,6 +210,35 @@ function Interview() {
                   <p className="question-helper">
                     Take your time and explain your reasoning clearly.
                   </p>
+
+                  <button
+                    type="button"
+                    className="hint-button"
+                    onClick={handleHint}
+                    disabled={hintLoading}
+                  >
+                    <Sparkles size={15} />
+
+                    <span>{hintLoading ? "Thinking..." : "Get AI Hint"}</span>
+                  </button>
+
+                  {hintVisible && (
+                    <div className="hint-card">
+                      <div className="hint-card-icon">
+                        <Sparkles size={16} />
+                      </div>
+
+                      <div>
+                        <p className="hint-card-label">AI HINT</p>
+
+                        <p className="hint-card-text">
+                          {hintLoading
+                            ? "Thinking about a useful direction..."
+                            : hint}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="interview-answer">
                   <label className="answer-editor-label">YOUR ANSWER</label>
@@ -239,7 +269,6 @@ function Interview() {
                     "Evaluate Answer"
                   )}
                 </button>
-
                 {evaluation && (
                   <div>
                     <h2>AI Feedback</h2>
@@ -249,7 +278,6 @@ function Interview() {
                     <p>{evaluation.feedback}</p>
                   </div>
                 )}
-
                 {evaluation && (
                   <>
                     {currentQuestionIndex < session.questions.length - 1 ? (

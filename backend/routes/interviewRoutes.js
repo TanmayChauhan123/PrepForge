@@ -359,6 +359,111 @@ Rules:
   },
 );
 
+// Generate an AI hint for one interview question
+router.post(
+  "/:sessionId/questions/:questionId/hint",
+  protect,
+  async (req, res) => {
+    try {
+      // Find the session belonging to the logged-in user
+      const session = await InterviewSession.findOne({
+        _id: req.params.sessionId,
+        user: req.user._id,
+      });
+
+      if (!session) {
+        return res.status(404).json({
+          message: "Interview session not found",
+        });
+      }
+
+      // Find the question inside the session
+      const question = session.questions.id(req.params.questionId);
+
+      if (!question) {
+        return res.status(404).json({
+          message: "Question not found",
+        });
+      }
+
+      const prompt = `
+You are an AI interview coach for a professional interview preparation platform.
+
+Give the candidate a helpful hint for the interview question below.
+
+Interview Information:
+Job Role: ${session.jobRole}
+Experience Level: ${session.experienceLevel}
+Interview Type: ${session.interviewType}
+Topic: ${session.topic || "General"}
+Difficulty: ${session.difficulty}
+
+Interview Question:
+${question.question}
+
+HINT RULES:
+- Give a useful hint that helps the candidate think about the answer.
+- Do NOT give the complete answer.
+- Do NOT directly solve the question.
+- Do NOT write a model answer.
+- Do NOT reveal every important detail needed for the answer.
+- Guide the candidate toward the relevant concept, approach, or key idea.
+- Keep the hint concise: 1-3 sentences.
+- The hint should be appropriate for the difficulty level.
+- The candidate should still need to think and formulate their own answer.
+- Do not mention that you are an AI.
+- Return ONLY valid JSON.
+
+Return exactly this format:
+
+{
+  "hint": "Think about..."
+}
+
+Do not return markdown.
+Do not return code fences.
+Do not include additional fields.
+`;
+
+      const aiResponse = await generateWithOllama(prompt);
+
+      let hintData;
+
+      try {
+        const cleanedResponse = aiResponse
+          .replace(/```json/g, "")
+          .replace(/```/g, "")
+          .trim();
+
+        hintData = JSON.parse(cleanedResponse);
+      } catch (parseError) {
+        return res.status(500).json({
+          message: "AI returned an invalid hint format",
+          rawResponse: aiResponse,
+        });
+      }
+
+      if (typeof hintData.hint !== "string" || !hintData.hint.trim()) {
+        return res.status(500).json({
+          message: "AI returned invalid hint data",
+        });
+      }
+
+      res.json({
+        message: "Hint generated successfully",
+        hint: hintData.hint.trim(),
+      });
+    } catch (error) {
+      console.error("Hint generation error:", error.message);
+
+      res.status(500).json({
+        message: "Failed to generate hint",
+        error: error.message,
+      });
+    }
+  },
+);
+
 // Save an answer and feedback for one question
 router.patch("/:sessionId/questions/:questionId", protect, async (req, res) => {
   try {
