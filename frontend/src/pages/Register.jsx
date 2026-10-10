@@ -169,7 +169,7 @@ function Register() {
           >
             {loading ? "Creating account..." : "Create account"}
 
-            {!loading && <span>➜</span>}
+            {!loading}
           </button>
         </form>
 
@@ -179,7 +179,7 @@ function Register() {
       </div>
 
       <Link to="/" className="auth-back">
-        ← Back to PrepForge
+        Back to PrepForge
       </Link>
     </main>
   );

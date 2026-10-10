@@ -60,13 +60,98 @@ function Dashboard() {
 
   const totalSessions = sessions.length;
 
+  const completedSessions = sessions.filter(
+    (session) => session.status === "Completed",
+  ).length;
+
+  const inProgressSessions = sessions.filter(
+    (session) => session.status === "In Progress",
+  ).length;
+  const latestInProgressSession = sessions.find(
+    (session) => session.status === "In Progress",
+  );
+
+  const evaluatedAnswers = sessions.flatMap((session) =>
+    session.questions
+      .filter(
+        (question) =>
+          question.userAnswer?.trim() &&
+          question.feedback?.trim() &&
+          typeof question.score === "number" &&
+          question.score >= 0 &&
+          question.score <= 10,
+      )
+      .map((question) => ({
+        jobRole: session.jobRole,
+        topic: session.topic,
+        question: question.question,
+        answer: question.userAnswer,
+        feedback: question.feedback,
+        score: question.score,
+      })),
+  );
+
+  const lowestScoringAnswer = [...evaluatedAnswers].sort(
+    (a, b) => a.score - b.score,
+  )[0];
+
+  const practiceRecommendation = lowestScoringAnswer
+    ? {
+        title:
+          lowestScoringAnswer.score < 4
+            ? "Let's strengthen your fundamentals"
+            : lowestScoringAnswer.score < 7
+              ? "Build on your current skills"
+              : "Polish your interview technique",
+
+        detail: `Your response scored ${lowestScoringAnswer.score}/10. ${lowestScoringAnswer.feedback}`,
+        topic: lowestScoringAnswer.topic || lowestScoringAnswer.jobRole,
+      }
+    : null;
+
+  const dailyQuestionGoal = 5;
+
+  const today = new Date().toDateString();
+
+  const questionsPractisedToday = sessions.reduce(
+    (total, session) =>
+      total +
+      session.questions.filter((question) => {
+        if (
+          !question.evaluatedAt ||
+          !question.userAnswer?.trim() ||
+          !question.feedback?.trim() ||
+          typeof question.score !== "number"
+        ) {
+          return false;
+        }
+
+        return new Date(question.evaluatedAt).toDateString() === today;
+      }).length,
+    0,
+  );
+
+  const dailyGoalProgress = Math.min(
+    Math.round((questionsPractisedToday / dailyQuestionGoal) * 100),
+    100,
+  );
+
+  const completionPercentage =
+    totalSessions > 0
+      ? Math.round((completedSessions / totalSessions) * 100)
+      : 0;
   const totalQuestions = sessions.reduce(
     (total, session) => total + session.questions.length,
     0,
   );
 
   const scoredQuestions = sessions.flatMap((session) =>
-    session.questions.filter((question) => typeof question.score === "number"),
+    session.questions.filter(
+      (question) =>
+        question.userAnswer?.trim() &&
+        question.feedback?.trim() &&
+        typeof question.score === "number",
+    ),
   );
 
   const averageScore =
@@ -88,54 +173,6 @@ function Dashboard() {
 
   return (
     <main className="dashboard">
-      {/* Sidebar */}
-      <aside className="dashboard-sidebar">
-        <Link to="/" className="dashboard-brand">
-          <img
-            src={prepforgeLogo}
-            alt="PrepForge"
-            className="dashboard-brand-logo"
-          />
-          <span>PrepForge</span>
-        </Link>
-
-        <nav className="dashboard-nav">
-          <p className="nav-label">Workspace</p>
-
-          <Link to="/dashboard" className="dashboard-nav-item active">
-            <LayoutDashboard size={18} />
-            Dashboard
-          </Link>
-
-          <Link to="/interview/setup" className="dashboard-nav-item">
-            <Play size={18} />
-            Practice
-          </Link>
-
-          <Link to="/dashboard" className="dashboard-nav-item">
-            <TrendingUp size={18} />
-            Progress
-          </Link>
-
-          <Link to="/dashboard" className="dashboard-nav-item">
-            <Gauge size={18} />
-            Sessions
-          </Link>
-
-          <p className="nav-label nav-label-bottom">Account</p>
-
-          <Link to="/dashboard" className="dashboard-nav-item">
-            <Settings size={18} />
-            Settings
-          </Link>
-        </nav>
-
-        <button className="logout-button" onClick={handleLogout}>
-          <LogOut size={18} />
-          Log out
-        </button>
-      </aside>
-
       {/* Main */}
       <section className="dashboard-main">
         <header className="dashboard-header">
@@ -147,7 +184,7 @@ function Dashboard() {
             </div>
 
             <h1>
-              Ready to level up,
+              Your potential, in practice.
               <span className="name-highlight">
                 {user?.name?.split(" ")[0] || "there"}
               </span>
@@ -158,7 +195,8 @@ function Dashboard() {
             </h1>
 
             <p className="dashboard-subtitle">
-              Your next great interview starts with one smart practice session.
+              Sharpen your skills with focused practice and intelligent
+              feedback.
             </p>
           </div>
 
@@ -174,89 +212,133 @@ function Dashboard() {
           </div>
         </header>
 
-        {/* AI Interview Engine */}
-        <section className="ai-engine">
+        {/* AI Coach Workspace */}
+        <section className="ai-engine coach-workspace">
           <div className="ai-grid"></div>
 
-          <div className="floating-icon icon-code">
-            <Code2 size={22} />
+          <div className="ai-engine-content coach-content">
+            <div className="ai-status">
+              <span className="ai-status-dot"></span>
+              YOUR AI INTERVIEW COACH
+            </div>
+
+            <p className="ai-label">Make every answer count.</p>
+
+            <h2>
+              {latestInProgressSession
+                ? "Keep building your confidence."
+                : "Build confidence through practice."}
+            </h2>
+
+            <p className="ai-description">
+              {latestInProgressSession
+                ? `Continue your ${latestInProgressSession.jobRole} interview and keep building confidence with every answer.`
+                : "Practice role-specific questions, get AI feedback, and build confidence one interview at a time."}
+            </p>
+
+            {latestInProgressSession ? (
+              <Link
+                to={`/interview/${latestInProgressSession._id}`}
+                className="ai-start-button"
+              >
+                Continue interview
+              </Link>
+            ) : (
+              <Link to="/interview/setup" className="ai-start-button">
+                Start an interview
+              </Link>
+            )}
           </div>
 
-          <div className="floating-icon icon-database">
-            <Database size={22} />
+          <div className="coach-decoration" aria-hidden="true">
+            <div className="coach-decoration-orb"></div>
+            <div className="coach-decoration-ring"></div>
+            <div className="coach-decoration-core">
+              <BrainCircuit size={46} />
+            </div>
+            <div className="coach-decoration-label">
+              <Sparkles size={14} />
+              SMART PRACTICE
+            </div>
+          </div>
+        </section>
+
+        {/* Daily Practice Goal */}
+        <section className="daily-goal-card">
+          <div className="daily-goal-header">
+            <div className="daily-goal-icon">
+              <Target size={20} />
+            </div>
+
+            <div className="daily-goal-heading">
+              <p className="dashboard-eyebrow">YOUR DAILY GOAL</p>
+              <h2>Small steps, stronger answers.</h2>
+            </div>
+
+            <span className="daily-goal-count">
+              {Math.min(questionsPractisedToday, dailyQuestionGoal)}/
+              {dailyQuestionGoal}
+            </span>
           </div>
 
-          <div className="floating-icon icon-target">
+          <p className="daily-goal-description">
+            {questionsPractisedToday >= dailyQuestionGoal
+              ? "Daily goal complete. Great work putting your skills into practice!"
+              : `Evaluate ${dailyQuestionGoal - questionsPractisedToday} more ${
+                  dailyQuestionGoal - questionsPractisedToday === 1
+                    ? "answer"
+                    : "answers"
+                } to reach today's goal.`}
+          </p>
+
+          <div
+            className="daily-goal-track"
+            role="progressbar"
+            aria-label="Daily practice goal"
+            aria-valuemin={0}
+            aria-valuemax={dailyQuestionGoal}
+            aria-valuenow={Math.min(questionsPractisedToday, dailyQuestionGoal)}
+          >
+            <div
+              className="daily-goal-fill"
+              style={{ width: `${dailyGoalProgress}%` }}
+            />
+          </div>
+        </section>
+
+        {/* Personalized Practice Recommendation */}
+        <section className="practice-recommendation">
+          <div className="recommendation-icon">
             <Target size={22} />
           </div>
 
-          <div className="floating-icon icon-trending">
-            <TrendingUp size={22} />
-          </div>
+          <div className="recommendation-content">
+            <p className="dashboard-eyebrow">PERSONALIZED FOR YOU</p>
 
-          <div className="ai-engine-content">
-            <div className="ai-status">
-              <span className="ai-status-dot"></span>
-              AI ENGINE ONLINE
-            </div>
+            <h2>
+              {practiceRecommendation
+                ? practiceRecommendation.title
+                : "Build your interview foundation"}
+            </h2>
 
-            <div className="ai-icon">
-              <BrainCircuit size={34} />
-            </div>
-
-            <p className="ai-label">YOUR NEXT INTERVIEW</p>
-
-            <h2>Ready to practice?</h2>
-
-            <p className="ai-description">
-              Generate a personalized interview based on your target role,
-              experience, topic, and difficulty.
+            <p>
+              {practiceRecommendation
+                ? practiceRecommendation.detail
+                : "Complete an interview and receive AI feedback to discover which skills you can strengthen."}
             </p>
 
-            <Link to="/interview/setup" className="ai-start-button">
-              Start an interview
-              <span>➜</span>
+            {practiceRecommendation?.topic && (
+              <span className="recommendation-topic">
+                {practiceRecommendation.topic}
+              </span>
+            )}
+          </div>
+
+          {practiceRecommendation && (
+            <Link to="/interview/setup" className="recommendation-action">
+              Practise again
             </Link>
-          </div>
-
-          <div className="ai-pulse pulse-one"></div>
-          <div className="ai-pulse pulse-two"></div>
-        </section>
-
-        {/* Stats */}
-        <section className="dashboard-stats">
-          <div className="stat-card">
-            <div className="stat-icon">
-              <Play size={18} />
-            </div>
-
-            <div>
-              <span>Sessions</span>
-              <strong>{totalSessions}</strong>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon">
-              <Target size={18} />
-            </div>
-
-            <div>
-              <span>Average score</span>
-              <strong>{averageScore}</strong>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon">
-              <Code2 size={18} />
-            </div>
-
-            <div>
-              <span>Questions</span>
-              <strong>{totalQuestions}</strong>
-            </div>
-          </div>
+          )}
         </section>
 
         {/* Recent Sessions */}
@@ -269,7 +351,6 @@ function Dashboard() {
 
             <Link to="/interview/setup" className="section-action">
               New session
-              <span>➜</span>
             </Link>
           </div>
 
@@ -292,9 +373,7 @@ function Dashboard() {
 
               <p>Your completed interview sessions will appear here.</p>
 
-              <Link to="/interview/setup">
-                Start your first interview <span>➜</span>
-              </Link>
+              <Link to="/interview/setup">Start your first interview</Link>
             </div>
           ) : (
             <div className="session-list">
@@ -318,7 +397,11 @@ function Dashboard() {
 
                 return (
                   <Link
-                    to={`/interview/${session._id}`}
+                    to={
+                      session.status === "Completed"
+                        ? `/results/${session._id}`
+                        : `/interview/${session._id}`
+                    }
                     className="session-card"
                     key={session._id}
                   >
@@ -345,9 +428,17 @@ function Dashboard() {
                       </strong>
 
                       <span>Score</span>
-                    </div>
 
-                    <div className="session-arrow">→</div>
+                      <span
+                        className={`session-status ${
+                          session.status === "Completed"
+                            ? "completed"
+                            : "in-progress"
+                        }`}
+                      >
+                        {session.status || "In Progress"}
+                      </span>
+                    </div>
                   </Link>
                 );
               })}

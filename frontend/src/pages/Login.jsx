@@ -103,7 +103,7 @@ function Login() {
             disabled={loading}
           >
             {loading ? "Logging in..." : "Log in"}
-            {!loading && <span>➜</span>}
+            {!loading}
           </button>
         </form>
 
@@ -113,7 +113,7 @@ function Login() {
       </div>
 
       <Link to="/" className="auth-back">
-        ← Back to PrepForge
+        Back to PrepForge
       </Link>
     </main>
   );

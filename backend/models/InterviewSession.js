@@ -11,6 +11,12 @@ const interviewSessionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    status: {
+      type: String,
+      enum: ["In Progress", "Completed"],
+      default: "In Progress",
+    },
     experienceLevel: {
       type: String,
       enum: ["Fresher", "Junior", "Mid", "Senior"],
@@ -52,6 +58,10 @@ const interviewSessionSchema = new mongoose.Schema(
           min: 0,
           max: 10,
           default: 0,
+        },
+        evaluatedAt: {
+          type: Date,
+          default: null,
         },
       },
     ],

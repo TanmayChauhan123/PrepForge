@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  ArrowLeft,
   BrainCircuit,
   BriefcaseBusiness,
   ChevronDown,
@@ -81,23 +80,6 @@ function InterviewSetup() {
       </div>
 
       <div className="setup-container">
-        {/* Top navigation */}
-        <header className="setup-header">
-          <Link to="/dashboard" className="setup-back">
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
-
-          <div className="setup-brand">
-            <img
-              src={prepforgeLogo}
-              alt="PrepForge"
-              className="setup-brand-logo"
-            />
-            <span>PrepForge AI</span>
-          </div>
-        </header>
-
         {/* Intro */}
         <section className="setup-intro">
           <div className="setup-intro-icon">
@@ -158,7 +140,6 @@ function InterviewSetup() {
                 The role you're preparing to interview for.
               </span>
             </div>
-
             {/* Experience */}
             <div className="setup-field">
               <label htmlFor="experienceLevel">
@@ -187,7 +168,6 @@ function InterviewSetup() {
                 <ChevronDown size={16} />
               </div>
             </div>
-
             {/* Interview type */}
             <div className="setup-field">
               <label htmlFor="interviewType">
@@ -214,7 +194,6 @@ function InterviewSetup() {
                 <ChevronDown size={16} />
               </div>
             </div>
-
             {/* Topic */}
             <div className="setup-field">
               <label htmlFor="topic">
@@ -236,7 +215,6 @@ function InterviewSetup() {
                 }
               />
             </div>
-
             {/* Difficulty */}
             <div className="setup-field">
               <label htmlFor="difficulty">
@@ -264,30 +242,67 @@ function InterviewSetup() {
                 <ChevronDown size={16} />
               </div>
             </div>
-
             {/* Question count */}
-            <div className="setup-field setup-field-full">
+            <div className="setup-field setup-field-full question-count-field">
               <div className="question-heading">
                 <label htmlFor="count">
                   <BrainCircuit size={15} />
                   Number of questions
                 </label>
-
-                <strong>{formData.count}</strong>
               </div>
 
+              {/* Plus/minus selector */}
+              <div className="question-counter">
+                <button
+                  type="button"
+                  className="question-counter-button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      count: Math.max(3, prev.count - 1),
+                    }))
+                  }
+                  disabled={formData.count <= 3}
+                  aria-label="Decrease question count"
+                >
+                  −
+                </button>
+
+                <div className="question-counter-value" aria-live="polite">
+                  <strong>{formData.count}</strong>
+                  <span>questions</span>
+                </div>
+
+                <button
+                  type="button"
+                  className="question-counter-button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      count: Math.min(10, prev.count + 1),
+                    }))
+                  }
+                  disabled={formData.count >= 10}
+                  aria-label="Increase question count"
+                >
+                  +
+                </button>
+              </div>
+
+              {/* Slider */}
               <input
                 id="count"
                 name="count"
                 type="range"
                 min="3"
                 max="10"
+                step="1"
                 value={formData.count}
                 onChange={(e) =>
-                  setFormData({
-                    ...formData,
+                  setFormData((prev) => ({
+                    ...prev,
                     count: Number(e.target.value),
-                  })
+                  }))
                 }
               />
 
@@ -295,25 +310,12 @@ function InterviewSetup() {
                 <span>3 questions</span>
                 <span>10 questions</span>
               </div>
-            </div>
 
-            {/* AI notice */}
-            <div className="ai-notice">
-              <div className="ai-notice-icon">
-                <Sparkles size={18} />
-              </div>
-
-              <div>
-                <strong>AI-powered session</strong>
-
-                <p>
-                  PrepForge will generate questions specifically around your
-                  selected role, experience, topic, and difficulty.
-                </p>
-              </div>
+              <p className="question-count-hint">
+                Choose the length of your practice session.
+              </p>
             </div>
             {error && <div className="setup-error">{error}</div>}
-
             <button
               type="submit"
               className="generate-button"

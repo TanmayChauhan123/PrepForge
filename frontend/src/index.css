@@ -72,3 +72,35 @@ a {
 ::selection {
   background: rgba(124, 108, 255, 0.35);
 }
+
+/* Shared Dashboard navigation pill */
+.dashboard-back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 15px;
+
+  color: #b9c1d2;
+  background: rgba(18, 25, 37, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+
+  transition:
+    color 200ms ease,
+    background 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease;
+}
+
+.dashboard-back-link:hover {
+  color: #f5f3ff;
+  background: rgba(124, 108, 255, 0.12);
+  border-color: rgba(164, 154, 255, 0.4);
+  box-shadow: 0 0 18px rgba(124, 108, 255, 0.1);
+  transform: translateY(-1px);
+}

@@ -136,14 +136,31 @@
   top: 28px;
   left: 30px;
 
-  color: var(--text-secondary);
-  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 15px;
 
-  transition: var(--transition);
+  border: 1px solid rgba(124, 108, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(124, 108, 255, 0.08);
+
+  color: #a49aff;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
 .auth-back:hover {
-  color: var(--text-primary);
+  background: rgba(124, 108, 255, 0.15);
+  border-color: rgba(124, 108, 255, 0.4);
+  color: #a49aff;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 520px) {

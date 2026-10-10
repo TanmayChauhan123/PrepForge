@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Interview.css";
-import prepforgeLogo from "../assets/prepforge.jpg";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 function Interview() {
+  
   const { sessionId } = useParams();
   const navigate = useNavigate();
 
@@ -50,7 +50,25 @@ function Interview() {
         }
 
         setSession(data);
-        console.log("Interview session:", data);
+        console.log("Loaded session ID:", data._id);
+        console.log("Loaded session status:", data.status);
+        console.log("Loaded questions:", data.questions.length);
+
+        const nextQuestionIndex = data.questions.findIndex(
+          (question) =>
+            !question.userAnswer?.trim() ||
+            typeof question.score !== "number" ||
+            !question.feedback?.trim(),
+        );
+
+        setCurrentQuestionIndex(
+          nextQuestionIndex === -1 ? 0 : nextQuestionIndex,
+        );
+
+        console.log("Session ID:", data._id);
+        console.log("Questions:", data.questions);
+        console.log("Question count:", data.questions?.length);
+        console.log("Next question index:", nextQuestionIndex);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -60,12 +78,26 @@ function Interview() {
 
     fetchSession();
   }, [sessionId]);
+
   useEffect(() => {
-    setAnswer("");
-    setEvaluation(null);
+    const question = session?.questions?.[currentQuestionIndex];
+
+    setAnswer(question?.userAnswer || "");
+
+    setEvaluation(
+      question?.userAnswer?.trim() &&
+        question?.feedback?.trim() &&
+        typeof question?.score === "number"
+        ? {
+            score: question.score,
+            feedback: question.feedback,
+          }
+        : null,
+    );
+
     setHintVisible(false);
     setHint("");
-  }, [currentQuestionIndex]);
+  }, [session, currentQuestionIndex]);
 
   const handleEvaluate = async () => {
     if (!answer.trim()) {
@@ -160,15 +192,6 @@ function Interview() {
     <main className="interview-page">
       <div className="interview-container">
         <header className="interview-header">
-          <div className="interview-brand">
-            <img
-              src={prepforgeLogo}
-              alt="PrepForge"
-              className="interview-brand-logo"
-            />
-            <span>PrepForge AI</span>
-          </div>
-
           <div className="interview-status">
             <span className="status-dot"></span>
             LIVE INTERVIEW
@@ -269,20 +292,39 @@ function Interview() {
                     "Evaluate Answer"
                   )}
                 </button>
+
                 {evaluation && (
-                  <div>
-                    <h2>AI Feedback</h2>
+                  <section className="ai-feedback">
+                    <div className="ai-feedback-header">
+                      <div className="ai-feedback-icon">
+                        <Sparkles size={21} />
+                      </div>
 
-                    <p>Score: {evaluation.score}/10</p>
+                      <div>
+                        <h2 className="ai-feedback-title">AI Feedback</h2>
+                        <p className="ai-feedback-subtitle">
+                          Your answer has been evaluated
+                        </p>
+                      </div>
+                    </div>
 
-                    <p>{evaluation.feedback}</p>
-                  </div>
+                    <div className="ai-feedback-score">
+                      <span>Score</span>
+                      <strong>{evaluation.score}/10</strong>
+                    </div>
+
+                    <div className="ai-feedback-body">
+                      <p>{evaluation.feedback}</p>
+                    </div>
+                  </section>
                 )}
+
                 {evaluation && (
                   <>
                     {currentQuestionIndex < session.questions.length - 1 ? (
                       <button
                         type="button"
+                        className="interview-next-button"
                         onClick={() => {
                           setCurrentQuestionIndex((prev) => prev + 1);
                           setAnswer("");
@@ -294,6 +336,7 @@ function Interview() {
                     ) : (
                       <button
                         type="button"
+                        className="interview-next-button interview-finish-button"
                         onClick={() => navigate(`/results/${sessionId}`)}
                       >
                         Finish Interview

@@ -154,12 +154,78 @@
   font-size: 12px;
 }
 
-.interview-answer {
-  padding: 22px;
-  background: rgba(18, 25, 37, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 18px;
-  margin-bottom: 16px;
+.interview-answer textarea {
+  display: block;
+  width: 100%;
+  min-height: 220px;
+  padding: 20px;
+  box-sizing: border-box;
+  resize: vertical;
+
+  color: #eef0ff;
+  background: #0b0e17;
+  border: 1px solid #2a2d42;
+  border-radius: 14px;
+  outline: none;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.8;
+
+  scrollbar-width: thin;
+  scrollbar-color: #6556b8 #111421;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.interview-answer textarea:hover {
+  border-color: #494363;
+}
+
+.interview-answer textarea:focus {
+  background: #0d101b;
+  border-color: #7c6cff;
+  box-shadow: 0 0 0 3px rgba(124, 108, 255, 0.13);
+}
+
+.interview-answer textarea::placeholder {
+  color: #777e92;
+}
+
+.interview-answer textarea::-webkit-scrollbar {
+  width: 9px;
+}
+
+.interview-answer textarea::-webkit-scrollbar-track {
+  background: #111421;
+  border-radius: 10px;
+}
+
+.interview-answer textarea::-webkit-scrollbar-thumb {
+  background: #514777;
+  border: 2px solid #111421;
+  border-radius: 10px;
+}
+
+.interview-answer textarea::-webkit-scrollbar-thumb:hover {
+  background: #7c6cff;
+}
+
+.interview-answer textarea::-webkit-resizer {
+  background: linear-gradient(
+    135deg,
+    transparent 40%,
+    #7c6cff 42%,
+    #7c6cff 49%,
+    transparent 51%,
+    transparent 62%,
+    #a49aff 64%,
+    #a49aff 71%,
+    transparent 73%
+  );
 }
 
 .answer-editor-label {
@@ -171,32 +237,8 @@
   letter-spacing: 0.13em;
 }
 
-.interview-answer textarea {
-  width: 100%;
-  min-height: 220px;
-  padding: 18px;
-  resize: vertical;
-  color: #f5f7fb;
-  background: #080b12;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 12px;
-  outline: none;
-  font-size: 14px;
-  line-height: 1.7;
-  transition:
-    border-color 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.interview-answer textarea::placeholder {
-  color: #687386;
-}
-
-.interview-answer textarea:focus {
-  border-color: rgba(124, 108, 255, 0.5);
-  box-shadow: 0 0 0 3px rgba(124, 108, 255, 0.08);
-}
 .evaluate-button {
+  margin-top: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -290,4 +332,159 @@
   color: #b8c0cf;
   font-size: 12px;
   line-height: 1.6;
+}
+
+/* AI Feedback */
+.ai-feedback {
+  margin-top: 24px;
+  padding: 24px;
+  background: linear-gradient(
+    135deg,
+    rgba(124, 108, 255, 0.09),
+    rgba(18, 25, 37, 0.96) 65%
+  );
+  border: 1px solid rgba(164, 154, 255, 0.22);
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.ai-feedback-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.ai-feedback-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  color: #b4aaff;
+  background: rgba(124, 108, 255, 0.15);
+  border: 1px solid rgba(164, 154, 255, 0.25);
+  border-radius: 12px;
+}
+
+.ai-feedback-title {
+  margin: 0;
+  color: #f0efff;
+  font-size: 19px;
+  font-weight: 650;
+}
+
+.ai-feedback-subtitle {
+  margin-top: 4px;
+  color: #8f96aa;
+  font-size: 12px;
+}
+
+.ai-feedback-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 9px 13px;
+  color: #c6bdff;
+  background: rgba(124, 108, 255, 0.12);
+  border: 1px solid rgba(164, 154, 255, 0.2);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ai-feedback-score strong {
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.ai-feedback-body {
+  padding: 17px;
+  color: #bdc5d5;
+  background: rgba(8, 11, 18, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.ai-feedback-body p {
+  margin: 0;
+}
+
+.ai-feedback-body p + p {
+  margin-top: 12px;
+}
+
+.ai-feedback-next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+  padding: 11px 17px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #8171ff, #6956ed);
+  border: 1px solid rgba(164, 154, 255, 0.25);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ai-feedback-next:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(124, 108, 255, 0.22);
+}
+
+@media (max-width: 600px) {
+  .ai-feedback {
+    padding: 18px;
+  }
+
+  .ai-feedback-title {
+    font-size: 17px;
+  }
+
+  .ai-feedback-body {
+    padding: 14px;
+  }
+}
+
+.interview-next-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 12px 20px;
+  color: #fff;
+  background: linear-gradient(135deg, #8171ff, #6956ed);
+  border: 1px solid rgba(164, 154, 255, 0.3);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(124, 108, 255, 0.16);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.interview-next-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(124, 108, 255, 0.28);
+}
+
+.interview-finish-button {
+  background: linear-gradient(135deg, #35b98b, #229c79);
+  border-color: rgba(53, 212, 154, 0.3);
+  box-shadow: 0 8px 24px rgba(53, 212, 154, 0.12);
+}
+
+.interview-finish-button:hover {
+  box-shadow: 0 10px 28px rgba(53, 212, 154, 0.22);
 }

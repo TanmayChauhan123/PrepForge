@@ -46,7 +46,6 @@ function Landing() {
           <div className="hero-actions">
             <Link to="/register" className="primary-button">
               Start practicing
-              <span>➜</span>
             </Link>
             <button className="secondary-button">Explore PrepForge</button>
           </div>

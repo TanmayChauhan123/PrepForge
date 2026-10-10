@@ -40,6 +40,23 @@ router.get("/", protect, async (req, res) => {
     const sessions = await InterviewSession.find({
       user: req.user._id,
     }).sort({ createdAt: -1 });
+    for (const session of sessions) {
+      const allQuestionsEvaluated =
+        session.questions.length > 0 &&
+        session.questions.every(
+          (question) =>
+            question.userAnswer?.trim() &&
+            typeof question.score === "number" &&
+            question.feedback?.trim(),
+        );
+
+      const newStatus = allQuestionsEvaluated ? "Completed" : "In Progress";
+
+      if (session.status !== newStatus) {
+        session.status = newStatus;
+        await session.save();
+      }
+    }
 
     res.json(sessions);
   } catch (error) {
@@ -341,6 +358,16 @@ Rules:
       question.userAnswer = userAnswer;
       question.feedback = feedback;
       question.score = score;
+      question.evaluatedAt = new Date();
+
+      const allQuestionsEvaluated = session.questions.every(
+        (q) =>
+          q.userAnswer?.trim() &&
+          typeof q.score === "number" &&
+          q.feedback?.trim(),
+      );
+
+      session.status = allQuestionsEvaluated ? "Completed" : "In Progress";
 
       await session.save();
 
@@ -497,7 +524,21 @@ router.patch("/:sessionId/questions/:questionId", protect, async (req, res) => {
     }
 
     if (score !== undefined) {
-      question.score = score;
+      const numericScore = Number(score);
+
+      if (
+        score === "" ||
+        score === null ||
+        !Number.isFinite(numericScore) ||
+        numericScore < 0 ||
+        numericScore > 10
+      ) {
+        return res.status(400).json({
+          message: "Score must be a number between 0 and 10",
+        });
+      }
+
+      question.score = numericScore;
     }
 
     await session.save();

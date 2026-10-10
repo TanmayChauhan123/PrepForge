@@ -1,7 +1,7 @@
 import "./Results.css";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
+import { CheckCircle2, Sparkles } from "lucide-react";
 import prepforgeLogo from "../assets/prepforge.jpg";
 
 function Results() {
@@ -60,7 +60,10 @@ function Results() {
 
   const scoredQuestions =
     session?.questions?.filter(
-      (question) => typeof question.score === "number",
+      (question) =>
+        question.userAnswer?.trim() &&
+        typeof question.score === "number" &&
+        question.feedback?.trim(),
     ) || [];
 
   const totalScore = scoredQuestions.reduce(
@@ -100,22 +103,6 @@ function Results() {
   return (
     <main className="results-page">
       <div className="results-container">
-        <header className="results-header">
-          <Link to="/dashboard" className="results-back">
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
-
-          <div className="results-brand">
-            <img
-              src={prepforgeLogo}
-              alt="PrepForge"
-              className="results-brand-logo"
-            />
-            <span>PrepForge AI</span>
-          </div>
-        </header>
-
         {session && (
           <div>
             <section className="results-hero">
@@ -205,7 +192,10 @@ function Results() {
                       </span>
 
                       <span className="question-score">
-                        {question.score}/10
+                        {question.userAnswer?.trim() &&
+                        question.feedback?.trim()
+                          ? `${question.score}/10`
+                          : "Not evaluated"}
                       </span>
                     </div>
 

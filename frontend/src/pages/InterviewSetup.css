@@ -6,7 +6,6 @@
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-
   background:
     radial-gradient(
       circle at 15% 15%,
@@ -19,7 +18,6 @@
       transparent 25%
     ),
     var(--bg-primary);
-
   color: var(--text-primary);
 }
 
@@ -33,10 +31,8 @@
 .setup-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-
-  color: #a49aff;
-
+  gap: 7px;
+  color: var(--accent-light);
   font-family: "Space Grotesk", sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -47,22 +43,15 @@
   height: 24px;
   object-fit: contain;
   border-radius: 6px;
-
-  filter: drop-shadow(
-    0 0 10px rgba(124, 108, 255, 0.35)
-  );
+  filter: drop-shadow(0 0 10px rgba(124, 108, 255, 0.35));
 }
-
-
 
 .setup-glow {
   position: absolute;
   width: 420px;
   height: 420px;
-
   border-radius: 50%;
   filter: blur(90px);
-
   opacity: 0.08;
 }
 
@@ -79,28 +68,21 @@
 }
 
 /* =========================
-   CONTAINER
+   CONTAINER & HEADER
 ========================= */
 
 .setup-container {
   position: relative;
   z-index: 2;
-
   width: min(920px, calc(100% - 40px));
-
   margin: 0 auto;
   padding: 28px 0 55px;
 }
-
-/* =========================
-   HEADER
-========================= */
 
 .setup-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-bottom: 65px;
 }
 
@@ -108,28 +90,14 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-
   color: var(--text-secondary);
   font-size: 13px;
-
   transition: 180ms ease;
 }
 
 .setup-back:hover {
   color: var(--text-primary);
   transform: translateX(-2px);
-}
-
-.setup-brand {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-
-  color: var(--accent-light);
-
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
 }
 
 /* =========================
@@ -139,42 +107,30 @@
 .setup-intro {
   max-width: 720px;
   margin-bottom: 34px;
-
   animation: setup-enter 650ms ease both;
 }
 
 .setup-intro-icon {
   width: 52px;
   height: 52px;
-
   display: grid;
   place-items: center;
-
   margin-bottom: 20px;
-
   border: 1px solid rgba(124, 108, 255, 0.25);
   border-radius: 15px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(124, 108, 255, 0.17),
-      rgba(124, 108, 255, 0.04)
-    );
-
+  background: linear-gradient(
+    145deg,
+    rgba(124, 108, 255, 0.17),
+    rgba(124, 108, 255, 0.04)
+  );
   color: var(--accent-light);
-
-  box-shadow:
-    0 0 35px rgba(124, 108, 255, 0.12);
-
+  box-shadow: 0 0 35px rgba(124, 108, 255, 0.12);
   animation: setup-icon-float 4s ease-in-out infinite;
 }
 
 .setup-eyebrow {
   margin-bottom: 9px;
-
   color: var(--accent-light);
-
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.6px;
@@ -184,34 +140,23 @@
   font-family: "Space Grotesk", sans-serif;
   font-size: clamp(34px, 5vw, 52px);
   font-weight: 700;
-
   letter-spacing: -1.8px;
   line-height: 1.05;
 }
 
 .setup-intro h1 span {
   display: block;
-
-  background: linear-gradient(
-    100deg,
-    #9a8fff,
-    #c5c0ff,
-    #7c6cff
-  );
-
+  background: linear-gradient(100deg, #9a8fff, #c5c0ff, #7c6cff);
   background-size: 200% auto;
-
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-
   animation: setup-shimmer 5s ease-in-out infinite;
 }
 
 .setup-intro > p:last-child {
   max-width: 620px;
   margin-top: 15px;
-
   color: var(--text-secondary);
   font-size: 15px;
   line-height: 1.7;
@@ -223,38 +168,28 @@
 
 .setup-card {
   position: relative;
-
   padding: 30px;
-
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 22px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(18, 25, 37, 0.94),
-      rgba(12, 17, 27, 0.94)
-    );
-
+  background: linear-gradient(
+    145deg,
+    rgba(18, 25, 37, 0.94),
+    rgba(12, 17, 27, 0.94)
+  );
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.025);
-
   backdrop-filter: blur(18px);
-
   animation: setup-enter 750ms ease 100ms both;
 }
 
 .setup-card::before {
   content: "";
-
   position: absolute;
   top: 0;
   left: 12%;
-
   width: 76%;
   height: 1px;
-
   background: linear-gradient(
     90deg,
     transparent,
@@ -263,26 +198,18 @@
   );
 }
 
-/* =========================
-   CARD HEADER
-========================= */
-
 .setup-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding-bottom: 24px;
   margin-bottom: 26px;
-
   border-bottom: 1px solid var(--border);
 }
 
 .setup-card-label {
   margin-bottom: 6px;
-
   color: var(--text-muted);
-
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -298,7 +225,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-
   color: var(--text-muted);
   font-size: 10px;
   font-weight: 600;
@@ -311,7 +237,6 @@
 .setup-step div {
   width: 30px;
   height: 1px;
-
   background: var(--border);
 }
 
@@ -327,7 +252,6 @@
 
 .setup-field {
   min-width: 0;
-
   display: flex;
   flex-direction: column;
   gap: 9px;
@@ -342,9 +266,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-
   color: var(--text-primary);
-
   font-size: 12px;
   font-weight: 600;
 }
@@ -355,26 +277,20 @@
 }
 
 /* =========================
-   INPUTS
+   TEXT INPUTS & SELECTS
 ========================= */
 
 .setup-field input[type="text"],
 .setup-field select {
   width: 100%;
   height: 47px;
-
   padding: 0 14px;
-
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 10px;
-
   outline: none;
-
   background: rgba(7, 10, 17, 0.75);
   color: var(--text-primary);
-
   font-size: 13px;
-
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
@@ -388,17 +304,11 @@
 .setup-field input[type="text"]:focus,
 .setup-field select:focus {
   border-color: rgba(124, 108, 255, 0.65);
-
   background: rgba(8, 11, 18, 0.95);
-
   box-shadow:
     0 0 0 3px rgba(124, 108, 255, 0.08),
     0 0 25px rgba(124, 108, 255, 0.05);
 }
-
-/* =========================
-   SELECT
-========================= */
 
 .select-wrapper {
   position: relative;
@@ -414,16 +324,10 @@
   position: absolute;
   right: 13px;
   top: 50%;
-
   pointer-events: none;
   transform: translateY(-50%);
-
   color: var(--text-muted);
 }
-
-/* =========================
-   HINT
-========================= */
 
 .field-hint {
   color: var(--text-muted);
@@ -431,7 +335,7 @@
 }
 
 /* =========================
-   RANGE
+   QUESTION COUNT SLIDER
 ========================= */
 
 .question-heading {
@@ -440,65 +344,50 @@
   justify-content: space-between;
 }
 
-.question-heading strong {
-  min-width: 30px;
-
+.question-heading strong,
+.question-count-value {
+  min-width: 42px;
+  padding: 7px 12px;
+  border: 1px solid rgba(124, 108, 255, 0.22);
+  border-radius: 12px;
+  background: rgba(124, 108, 255, 0.13);
+  color: #a49aff;
   text-align: center;
-
-  padding: 4px 8px;
-
-  border-radius: 7px;
-
-  background: var(--accent-soft);
-  color: var(--accent-light);
-
-  font-size: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
+
+.question-count-field {
+  padding-top: 4px;
+}
+
+/* Reliable question-count slider */
 
 .setup-field input[type="range"] {
+  display: block;
   width: 100%;
-  height: 5px;
-
-  margin-top: 7px;
-
-  appearance: none;
-
-  border-radius: 99px;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--accent) 22%,
-      rgba(255, 255, 255, 0.08) 22%
-    );
-
-  outline: none;
-}
-
-.setup-field input[type="range"]::-webkit-slider-thumb {
-  width: 16px;
-  height: 16px;
-
-  appearance: none;
-
-  border: 3px solid #121925;
-  border-radius: 50%;
-
-  background: var(--accent-light);
-
-  box-shadow:
-    0 0 0 2px rgba(124, 108, 255, 0.3),
-    0 0 14px rgba(124, 108, 255, 0.45);
-
-  cursor: pointer;
+  height: 24px;
+  margin: 7px 0;
+  padding: 0;
+  accent-color: #7c6cff;
+  cursor: default;
+  pointer-events: auto;
 }
 
 .range-labels {
   display: flex;
   justify-content: space-between;
-
+  gap: 12px;
   color: var(--text-muted);
-  font-size: 10px;
+  font-size: 12px;
+}
+
+.question-count-hint {
+  margin: 12px 0 0;
+  color: #78849a;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 /* =========================
@@ -507,16 +396,12 @@
 
 .ai-notice {
   grid-column: 1 / -1;
-
   display: flex;
   align-items: flex-start;
   gap: 13px;
-
   padding: 15px;
-
   border: 1px solid rgba(124, 108, 255, 0.13);
   border-radius: 13px;
-
   background: rgba(124, 108, 255, 0.045);
 }
 
@@ -524,12 +409,9 @@
   width: 35px;
   height: 35px;
   flex-shrink: 0;
-
   display: grid;
   place-items: center;
-
   border-radius: 9px;
-
   background: var(--accent-soft);
   color: var(--accent-light);
 }
@@ -540,47 +422,30 @@
 
 .ai-notice p {
   margin-top: 4px;
-
   color: var(--text-secondary);
-
   font-size: 11px;
   line-height: 1.5;
 }
 
 /* =========================
-   BUTTON
+   GENERATE BUTTON
 ========================= */
 
 .generate-button {
   grid-column: 1 / -1;
-
   height: 50px;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
-
   margin-top: 2px;
-
   border: 0;
   border-radius: 11px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #7c6cff,
-      #6654ed
-    );
-
+  background: linear-gradient(135deg, #7c6cff, #6654ed);
   color: white;
-
   font-size: 13px;
   font-weight: 700;
-
-  box-shadow:
-    0 14px 35px rgba(124, 108, 255, 0.22);
-
+  box-shadow: 0 14px 35px rgba(124, 108, 255, 0.22);
   transition:
     transform 180ms ease,
     box-shadow 180ms ease;
@@ -593,9 +458,7 @@
 
 .generate-button:hover {
   transform: translateY(-2px);
-
-  box-shadow:
-    0 18px 42px rgba(124, 108, 255, 0.34);
+  box-shadow: 0 18px 42px rgba(124, 108, 255, 0.34);
 }
 
 .generate-button:hover span {
@@ -608,9 +471,7 @@
 
 .setup-footer {
   margin-top: 22px;
-
   text-align: center;
-
   color: var(--text-muted);
   font-size: 10px;
 }
@@ -650,6 +511,36 @@
 
   50% {
     background-position: 100% center;
+  }
+}
+
+.loading-dots {
+  display: inline-flex;
+  margin-left: 2px;
+}
+
+.loading-dots span {
+  animation: loadingDot 1.4s infinite;
+  opacity: 0.2;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loadingDot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.2;
+  }
+
+  30% {
+    opacity: 1;
   }
 }
 
@@ -708,32 +599,80 @@
   }
 }
 
-.loading-dots {
-  display: inline-flex;
-  margin-left: 2px;
+/* Synchronized question slider */
+.question-count-field input[type="range"] {
+  display: block;
+  width: 100%;
+  height: 24px;
+  margin: 10px 0 0;
+  padding: 0;
+  accent-color: #7c6cff;
+  cursor: default;
 }
 
-.loading-dots span {
-  animation: loadingDot 1.4s infinite;
-  opacity: 0.2;
+.question-count-field .range-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+/* Question counter layout fix */
+.question-counter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 18px;
+  border: 1px solid rgba(124, 108, 255, 0.15);
+  border-radius: 14px;
+  background: rgba(124, 108, 255, 0.045);
 }
 
-.loading-dots span:nth-child(2) {
-  animation-delay: 0.2s;
+.question-counter-button {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(124, 108, 255, 0.3);
+  border-radius: 12px;
+  background: rgba(124, 108, 255, 0.12);
+  color: #a49aff;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease;
 }
 
-.loading-dots span:nth-child(3) {
-  animation-delay: 0.4s;
+.question-counter-button:hover:not(:disabled) {
+  background: rgba(124, 108, 255, 0.24);
+  border-color: #7c6cff;
 }
 
-@keyframes loadingDot {
-  0%,
-  60%,
-  100% {
-    opacity: 0.2;
-  }
+.question-counter-button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
 
-  30% {
-    opacity: 1;
-  }
+.question-counter-value {
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.question-counter-value strong {
+  color: #a49aff;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.question-counter-value span {
+  color: var(--text-secondary);
+  font-size: 12px;
 }

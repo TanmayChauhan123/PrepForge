@@ -98,4 +98,70 @@ router.post("/login", async (req, res) => {
   }
 });
 
+/* Update the logged-in user's profile */
+router.put("/profile", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        message: "Authentication required",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const { name, targetRole } = req.body;
+
+    if (!name?.trim() || !targetRole?.trim()) {
+      return res.status(400).json({
+        message: "Name and target role are required",
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      decoded.userId,
+      {
+        name: name.trim(),
+        targetRole: targetRole.trim(),
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.json({
+      message: "Profile updated successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        targetRole: user.targetRole,
+      },
+    });
+  } catch (error) {
+    if (
+      error.name === "JsonWebTokenError" ||
+      error.name === "TokenExpiredError"
+    ) {
+      return res.status(401).json({
+        message: "Invalid or expired token",
+      });
+    }
+
+    res.status(500).json({
+      message: "Failed to update profile",
+    });
+  }
+});
+
 module.exports = router;

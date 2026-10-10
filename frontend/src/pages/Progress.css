@@ -1,0 +1,132 @@
+.progress-page {
+  min-height: 100vh;
+  padding: 36px;
+  background: #080b12;
+  color: #f4f5fb;
+}
+
+.progress-back {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 36px;
+  color: #a49aff;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.progress-back:hover {
+  color: #c2baff;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.progress-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  border: 1px solid rgba(124, 108, 255, 0.25);
+  border-radius: 16px;
+  background: rgba(124, 108, 255, 0.12);
+  color: #a49aff;
+}
+
+.progress-header p {
+  margin: 0 0 7px;
+  color: #a49aff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.progress-header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.progress-header span {
+  color: #8b94aa;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.progress-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  padding: 36px 24px;
+  border: 1px solid #252b38;
+  border-radius: 16px;
+  background: #10141e;
+  text-align: center;
+}
+
+.progress-placeholder > svg {
+  margin-bottom: 18px;
+  color: #a49aff;
+}
+
+.progress-placeholder h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.progress-placeholder p {
+  max-width: 430px;
+  margin: 0 0 22px;
+  color: #929bb2;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.progress-placeholder a {
+  padding: 11px 18px;
+  border: 1px solid rgba(124, 108, 255, 0.35);
+  border-radius: 9px;
+  background: rgba(124, 108, 255, 0.12);
+  color: #b4aaff;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.progress-placeholder a:hover {
+  background: rgba(124, 108, 255, 0.2);
+}
+
+@media (max-width: 600px) {
+  .progress-page {
+    padding: 24px 18px;
+  }
+
+  .progress-header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .progress-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+  }
+}
+
+.progress-page > .dashboard-back-link {
+  margin-bottom: 24px;
+}
+
+.progress-header {
+  margin-top: 0;
+}
