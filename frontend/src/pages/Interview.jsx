@@ -4,11 +4,27 @@ import "./Interview.css";
 import { Sparkles } from "lucide-react";
 
 function Interview() {
-  
   const { sessionId } = useParams();
   const navigate = useNavigate();
 
   const [session, setSession] = useState(null);
+  const [aiPreferences] = useState(() => {
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem("interviewPreferences") || "{}",
+      );
+
+      return {
+        feedbackDetail: saved.feedbackDetail || "Balanced",
+        hintsEnabled: saved.hintsEnabled !== false,
+      };
+    } catch {
+      return {
+        feedbackDetail: "Balanced",
+        hintsEnabled: true,
+      };
+    }
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [answer, setAnswer] = useState("");
@@ -127,6 +143,7 @@ function Interview() {
           },
           body: JSON.stringify({
             userAnswer: answer,
+            feedbackDetail: aiPreferences.feedbackDetail,
           }),
         },
       );
@@ -170,6 +187,9 @@ function Interview() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify({
+            hintsEnabled: aiPreferences.hintsEnabled,
+          }),
         },
       );
 
@@ -234,33 +254,39 @@ function Interview() {
                     Take your time and explain your reasoning clearly.
                   </p>
 
-                  <button
-                    type="button"
-                    className="hint-button"
-                    onClick={handleHint}
-                    disabled={hintLoading}
-                  >
-                    <Sparkles size={15} />
+                  {aiPreferences.hintsEnabled && (
+                    <>
+                      <button
+                        type="button"
+                        className="hint-button"
+                        onClick={handleHint}
+                        disabled={hintLoading}
+                      >
+                        <Sparkles size={15} />
 
-                    <span>{hintLoading ? "Thinking..." : "Get AI Hint"}</span>
-                  </button>
+                        <span>
+                          {hintLoading ? "Thinking..." : "Get AI Hint"}
+                        </span>
+                      </button>
 
-                  {hintVisible && (
-                    <div className="hint-card">
-                      <div className="hint-card-icon">
-                        <Sparkles size={16} />
-                      </div>
+                      {hintVisible && (
+                        <div className="hint-card">
+                          <div className="hint-card-icon">
+                            <Sparkles size={16} />
+                          </div>
 
-                      <div>
-                        <p className="hint-card-label">AI HINT</p>
+                          <div>
+                            <p className="hint-card-label">AI HINT</p>
 
-                        <p className="hint-card-text">
-                          {hintLoading
-                            ? "Thinking about a useful direction..."
-                            : hint}
-                        </p>
-                      </div>
-                    </div>
+                            <p className="hint-card-text">
+                              {hintLoading
+                                ? "Thinking about a useful direction..."
+                                : hint}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
                 <div className="interview-answer">

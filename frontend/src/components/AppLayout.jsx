@@ -7,11 +7,55 @@ import {
   Settings as SettingsIcon,
   LogOut,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import prepforgeLogo from "../assets/prepforge.jpg";
 import "./AppLayout.css";
 
 function AppLayout() {
   const navigate = useNavigate();
+  const [appearance, setAppearance] = useState(() => {
+    try {
+      return {
+        theme: "dark",
+        accentColor: "purple",
+        ...JSON.parse(localStorage.getItem("appearanceSettings") || "{}"),
+      };
+    } catch {
+      return {
+        theme: "dark",
+        accentColor: "purple",
+      };
+    }
+  });
+
+  useEffect(() => {
+    const syncAppearance = () => {
+      try {
+        const saved = JSON.parse(
+          localStorage.getItem("appearanceSettings") || "{}",
+        );
+
+        setAppearance({
+          theme: "dark",
+          accentColor: "purple",
+          ...saved,
+        });
+      } catch {
+        setAppearance({
+          theme: "dark",
+          accentColor: "purple",
+        });
+      }
+    };
+
+    window.addEventListener("appearanceSettingsChanged", syncAppearance);
+    window.addEventListener("storage", syncAppearance);
+
+    return () => {
+      window.removeEventListener("appearanceSettingsChanged", syncAppearance);
+      window.removeEventListener("storage", syncAppearance);
+    };
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -28,7 +72,9 @@ function AppLayout() {
   ];
 
   return (
-    <div className="app-layout">
+    <div
+      className={`app-layout theme-${appearance.theme} accent-${appearance.accentColor}`}
+    >
       <aside className="app-sidebar">
         <div className="app-sidebar-brand">
           <img src={prepforgeLogo} alt="PrepForge" />

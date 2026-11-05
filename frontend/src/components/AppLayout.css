@@ -1,7 +1,10 @@
 .app-layout {
   min-height: 100vh;
-  background: #080b12;
-  color: #f5f7fb;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition:
+    background 180ms ease,
+    color 180ms ease;
 }
 
 .app-sidebar {
@@ -10,10 +13,11 @@
   z-index: 100;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   width: 178px;
   padding: 24px 10px;
-  background: #0d131d;
-  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
 }
 
 .app-sidebar-brand {
@@ -22,7 +26,7 @@
   gap: 9px;
   padding: 0 8px;
   margin-bottom: 38px;
-  color: #a49aff;
+  color: var(--accent-light);
   font-family: "Space Grotesk", sans-serif;
   font-size: 15px;
   font-weight: 700;
@@ -34,12 +38,12 @@
   flex-shrink: 0;
   object-fit: contain;
   border-radius: 7px;
-  filter: drop-shadow(0 0 9px rgba(124, 108, 255, 0.25));
+  filter: drop-shadow(0 0 9px var(--accent-soft));
 }
 
 .sidebar-section-label {
   margin: 0 8px 12px;
-  color: #687386;
+  color: var(--text-muted);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -56,7 +60,7 @@
   gap: 10px;
   min-height: 38px;
   padding: 9px 10px;
-  color: #9aa5b5;
+  color: var(--text-secondary);
   border: 1px solid transparent;
   border-radius: 9px;
   text-decoration: none;
@@ -72,30 +76,30 @@
 
 .sidebar-link svg {
   flex-shrink: 0;
-  color: #8792a5;
+  color: var(--text-muted);
   transition: color 180ms ease;
 }
 
 .sidebar-link:hover {
-  color: #f5f3ff;
-  background: rgba(124, 108, 255, 0.08);
-  border-color: rgba(124, 108, 255, 0.12);
+  color: var(--text-primary);
+  background: var(--accent-soft);
+  border-color: var(--border);
   transform: translateX(2px);
 }
 
 .sidebar-link:hover svg {
-  color: #b8adff;
+  color: var(--accent-light);
 }
 
 .sidebar-link.active {
-  color: #f5f3ff;
-  background: rgba(124, 108, 255, 0.13);
-  border-color: rgba(124, 108, 255, 0.2);
+  color: var(--text-primary);
+  background: var(--accent-soft);
+  border-color: var(--border);
   font-weight: 700;
 }
 
 .sidebar-link.active svg {
-  color: #a49aff;
+  color: var(--accent-light);
 }
 
 .sidebar-account-label {
@@ -108,7 +112,7 @@
   gap: 10px;
   margin-top: auto;
   padding: 11px 10px;
-  color: #9aa5b5;
+  color: var(--text-secondary);
   background: transparent;
   border: 1px solid transparent;
   border-radius: 9px;
@@ -121,18 +125,20 @@
 }
 
 .sidebar-logout:hover {
-  color: #ff9ca8;
-  background: rgba(255, 100, 124, 0.07);
-  border-color: rgba(255, 100, 124, 0.14);
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border-color: var(--border);
 }
 
 .app-main {
+  box-sizing: border-box;
   flex: 1;
+  width: calc(100% - 178px);
   min-width: 0;
   min-height: 100vh;
-  margin-left: 0;
+  margin-left: 178px;
   padding: 0;
-  background: #080b12;
+  background: var(--bg-primary);
 }
 
 @media (max-width: 700px) {
@@ -161,6 +167,7 @@
   }
 
   .app-main {
+    width: calc(100% - 66px);
     margin-left: 66px;
     padding: 22px 14px 36px;
   }

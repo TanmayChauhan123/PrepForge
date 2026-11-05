@@ -5,19 +5,6 @@
   color: #f4f5fb;
 }
 
-.sessions-back {
-  display: inline-flex;
-  margin-bottom: 36px;
-  color: #a49aff;
-  margin-bottom: 24px;
-  font-size: 13px;
-  text-decoration: none;
-}
-
-.sessions-back:hover {
-  color: #c2baff;
-}
-
 .sessions-header {
   margin-bottom: 30px;
   margin-top: 16px;
@@ -44,31 +31,43 @@
   line-height: 1.7;
 }
 
+/* Sessions Summary */
 .sessions-summary {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
   margin-bottom: 28px;
 }
 
 .sessions-summary > div {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 22px;
-  background: #10141e;
-  border: 1px solid #252b38;
+  gap: 12px;
+  min-height: 115px;
+  padding: 22px 24px;
+  background: linear-gradient(145deg, #151a29, #10141e);
+  border: 1px solid rgba(164, 154, 255, 0.13);
   border-radius: 14px;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.sessions-summary > div:hover {
+  transform: translateY(-3px);
+  border-color: rgba(164, 154, 255, 0.35);
 }
 
 .sessions-summary span {
   color: #929bb2;
   font-size: 13px;
+  font-weight: 500;
 }
 
 .sessions-summary strong {
-  color: #a49aff;
-  font-size: 28px;
+  color: #f5f3ff;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 29px;
   font-weight: 700;
 }
 
@@ -93,33 +92,38 @@
   font-size: 19px;
 }
 
+/* Session Filters */
 .sessions-filters {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 9px;
   flex-wrap: wrap;
 }
 
 .sessions-filters button {
-  padding: 9px 13px;
-  border: 1px solid #2a3040;
-  border-radius: 8px;
+  padding: 9px 15px;
+  border: 1px solid rgba(164, 154, 255, 0.14);
+  border-radius: 9px;
   background: #0b0f18;
   color: #929bb2;
   font-family: inherit;
   font-size: 12px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 180ms ease;
 }
 
 .sessions-filters button:hover {
-  border-color: #7c6cff;
+  border-color: rgba(164, 154, 255, 0.4);
+  background: rgba(124, 108, 255, 0.08);
   color: #d4ceff;
 }
 
 .sessions-filters button.active {
-  border-color: rgba(124, 108, 255, 0.5);
-  background: rgba(124, 108, 255, 0.14);
-  color: #b4aaff;
+  border-color: rgba(124, 108, 255, 0.55);
+  background: rgba(124, 108, 255, 0.16);
+  color: #c1b7ff;
+  box-shadow: 0 0 12px rgba(124, 108, 255, 0.08);
 }
 
 .sessions-list {
@@ -128,55 +132,86 @@
   gap: 10px;
 }
 
+/* Session Cards */
 .sessions-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   min-width: 0;
-  padding: 17px;
-  border: 1px solid #252b38;
-  border-radius: 12px;
+  padding: 19px 20px;
+  border: 1px solid rgba(164, 154, 255, 0.12);
+  border-radius: 13px;
   background: #0c1019;
   text-decoration: none;
   transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
 }
 
 .sessions-card:hover {
-  border-color: rgba(124, 108, 255, 0.5);
+  transform: translateY(-2px);
+  border-color: rgba(164, 154, 255, 0.38);
   background: #131827;
 }
 
 .sessions-card-icon {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
+  border: 1px solid rgba(164, 154, 255, 0.15);
   border-radius: 12px;
   background: rgba(124, 108, 255, 0.13);
   color: #a49aff;
 }
 
-.sessions-card-info {
-  flex: 1;
-  min-width: 0;
-}
-
 .sessions-card-info h3 {
-  margin: 0 0 7px;
+  margin: 0 0 8px;
   color: #f4f5fb;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
 }
 
 .sessions-card-info p {
   margin: 0;
-  color: #8590aa;
+  color: #929bb2;
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-wrap: anywhere;
+}
+
+.sessions-card-result > strong {
+  color: #c1b7ff;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.sessions-status {
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sessions-status.completed {
+  color: #75e0b0;
+  background: rgba(46, 204, 138, 0.1);
+  border-color: rgba(46, 204, 138, 0.15);
+}
+
+.sessions-status.in-progress {
+  color: #b4a8ff;
+  background: rgba(124, 108, 255, 0.12);
+  border-color: rgba(164, 154, 255, 0.15);
+}
+
+.sessions-card-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .sessions-card-result {
@@ -187,22 +222,10 @@
   flex-shrink: 0;
 }
 
-.sessions-card-result > strong {
-  color: #f4f5fb;
-  font-size: 17px;
-}
-
 .sessions-card-result small {
   color: #8590aa;
   font-size: 10px;
   font-weight: 400;
-}
-
-.sessions-status {
-  padding: 4px 9px;
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: 600;
 }
 
 .sessions-status.completed {
@@ -261,8 +284,8 @@
   }
 
   .sessions-summary {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 
   .sessions-summary > div {
@@ -278,7 +301,6 @@
     flex-direction: column;
   }
 }
-
 @media (max-width: 420px) {
   .sessions-card {
     gap: 10px;
@@ -293,4 +315,63 @@
   .sessions-card-info p {
     font-size: 11px;
   }
+}
+@media (max-width: 480px) {
+  .sessions-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .sessions-card {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .sessions-card-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sessions-card-result {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 46px;
+  }
+}
+
+.sessions-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 190px;
+  padding: 30px 16px;
+  text-align: center;
+}
+
+.sessions-empty-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 15px;
+  color: #a49aff;
+  background: rgba(124, 108, 255, 0.12);
+  border: 1px solid rgba(164, 154, 255, 0.18);
+  border-radius: 14px;
+}
+
+.sessions-empty h3 {
+  margin: 0 0 9px;
+  color: #f1efff;
+  font-size: 16px;
+}
+
+.sessions-empty p {
+  max-width: 380px;
+  margin: 0 0 18px;
+  color: #929bb2;
+  font-size: 12px;
+  line-height: 1.7;
 }

@@ -16,13 +16,27 @@ import prepforgeLogo from "../assets/prepforge.jpg";
 
 function InterviewSetup() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    jobRole: "",
-    experienceLevel: "Fresher",
-    interviewType: "Technical",
-    topic: "",
-    difficulty: "Medium",
-    count: 5,
+  const [formData, setFormData] = useState(() => {
+    const savedUser = JSON.parse(localStorage.getItem("user") || "null");
+
+    let savedPreferences = {};
+
+    try {
+      savedPreferences = JSON.parse(
+        localStorage.getItem("interviewPreferences") || "{}",
+      );
+    } catch {
+      savedPreferences = {};
+    }
+
+    return {
+      jobRole: savedUser?.targetRole || "",
+      experienceLevel: savedPreferences.experienceLevel || "Fresher",
+      interviewType: savedPreferences.interviewType || "Technical",
+      topic: "",
+      difficulty: savedPreferences.difficulty || "Medium",
+      count: Math.min(10, Math.max(3, Number(savedPreferences.count) || 5)),
+    };
   });
 
   const [loading, setLoading] = useState(false);

@@ -102,5 +102,45 @@ a {
   background: rgba(124, 108, 255, 0.12);
   border-color: rgba(164, 154, 255, 0.4);
   box-shadow: 0 0 18px rgba(124, 108, 255, 0.1);
+
   transform: translateY(-1px);
+}
+
+/* Appearance: Light Theme */
+
+.app-layout.theme-light {
+  --bg-primary: #f4f6fb;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --border: rgba(20, 30, 50, 0.12);
+
+  --text-primary: #182033;
+  --text-secondary: #566176;
+  --text-muted: #8490a3;
+}
+
+/* Accent Colour Variants */
+
+.app-layout.accent-purple {
+  --accent: #7c6cff;
+  --accent-light: #9a8fff;
+  --accent-soft: rgba(124, 108, 255, 0.12);
+}
+
+.app-layout.accent-blue {
+  --accent: #3b82f6;
+  --accent-light: #60a5fa;
+  --accent-soft: rgba(59, 130, 246, 0.12);
+}
+
+.app-layout.accent-green {
+  --accent: #10b981;
+  --accent-light: #34d399;
+  --accent-soft: rgba(16, 185, 129, 0.12);
+}
+
+.app-layout.accent-rose {
+  --accent: #f43f5e;
+  --accent-light: #fb7185;
+  --accent-soft: rgba(244, 63, 94, 0.12);
 }

@@ -105,6 +105,10 @@ function Sessions() {
           <p className="sessions-message sessions-error">{error}</p>
         ) : filteredSessions.length === 0 ? (
           <div className="sessions-empty">
+            <div className="sessions-empty-icon">
+              <Code2 size={25} />
+            </div>
+
             <h3>No sessions found</h3>
             <p>
               {filter === "All"

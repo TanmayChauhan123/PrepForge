@@ -91,10 +91,11 @@ function Dashboard() {
       })),
   );
 
-  const lowestScoringAnswer = [...evaluatedAnswers].sort(
-    (a, b) => a.score - b.score,
-  )[0];
-
+  const lowestScoringAnswer = evaluatedAnswers.reduce(
+    (lowest, current) =>
+      !lowest || current.score < lowest.score ? current : lowest,
+    null,
+  );
   const practiceRecommendation = lowestScoringAnswer
     ? {
         title:
@@ -144,6 +145,13 @@ function Dashboard() {
     (total, session) => total + session.questions.length,
     0,
   );
+  const questionsPractised = sessions.reduce(
+    (total, session) =>
+      total +
+      session.questions.filter((question) => question.userAnswer?.trim())
+        .length,
+    0,
+  );
 
   const scoredQuestions = sessions.flatMap((session) =>
     session.questions.filter(
@@ -163,6 +171,34 @@ function Dashboard() {
           ) / scoredQuestions.length
         ).toFixed(1)
       : "--";
+
+  const performanceTrend = sessions
+    .filter(
+      (session) =>
+        session.status === "Completed" &&
+        session.questions?.some(
+          (question) =>
+            question.userAnswer?.trim() && typeof question.score === "number",
+        ),
+    )
+    .map((session) => {
+      const scores = session.questions
+        .filter(
+          (question) =>
+            question.userAnswer?.trim() && typeof question.score === "number",
+        )
+        .map((question) => question.score);
+
+      const average =
+        scores.reduce((total, score) => total + score, 0) / scores.length;
+
+      return {
+        id: session._id,
+        jobRole: session.jobRole,
+        average: Number(average.toFixed(1)),
+      };
+    })
+    .reverse();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -263,6 +299,56 @@ function Dashboard() {
           </div>
         </section>
 
+        {/* Dashboard Statistics */}
+        <section className="dashboard-stats">
+          <div className="stat-card">
+            <div className="stat-icon">
+              <LayoutDashboard size={20} />
+            </div>
+            <div>
+              <p>Total Interviews</p>
+              <h3>{totalSessions}</h3>
+              <span>Sessions created</span>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon">
+              <TrendingUp size={20} />
+            </div>
+            <div>
+              <p>Completed</p>
+              <h3>{completedSessions}</h3>
+              <span>Finished sessions</span>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon">
+              <Gauge size={20} />
+            </div>
+            <div>
+              <p>Average Score</p>
+              <h3>
+                {averageScore}
+                <small>{averageScore !== "--" ? "/10" : ""}</small>
+              </h3>
+              <span>Across evaluated answers</span>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon">
+              <BrainCircuit size={20} />
+            </div>
+            <div>
+              <p>Questions Practised</p>
+              <h3>{questionsPractised}</h3>
+              <span>Answers submitted</span>
+            </div>
+          </div>
+        </section>
+
         {/* Daily Practice Goal */}
         <section className="daily-goal-card">
           <div className="daily-goal-header">
@@ -341,6 +427,139 @@ function Dashboard() {
           )}
         </section>
 
+        <section className="performance-section">
+          <div className="section-heading">
+            <div>
+              <span className="section-eyebrow">YOUR PROGRESS</span>
+              <h2>Performance Trend</h2>
+              <p>Track how your interview performance is improving.</p>
+            </div>
+          </div>
+
+          {performanceTrend.length > 0 ? (
+            <div className="performance-card">
+              <div className="performance-chart">
+                <div className="chart-y-axis">
+                  <span>10</span>
+                  <span>7.5</span>
+                  <span>5</span>
+                  <span>2.5</span>
+                  <span>0</span>
+                </div>
+
+                <div className="chart-content">
+                  <div className="chart-grid">
+                    {[0, 1, 2, 3, 4].map((line) => (
+                      <div key={line} className="chart-grid-line" />
+                    ))}
+                  </div>
+
+                  <svg
+                    className="performance-svg"
+                    viewBox="0 0 600 220"
+                    preserveAspectRatio="none"
+                  >
+                    <defs>
+                      <linearGradient
+                        id="performanceGradient"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="0%"
+                          stopColor="#8b7cff"
+                          stopOpacity="0.3"
+                        />
+                        <stop
+                          offset="100%"
+                          stopColor="#8b7cff"
+                          stopOpacity="0"
+                        />
+                      </linearGradient>
+                    </defs>
+
+                    {(() => {
+                      const chartData = performanceTrend.slice(-6);
+                      const points = chartData.map((item, index) => ({
+                        x:
+                          chartData.length === 1
+                            ? 300
+                            : 20 + (index * 560) / (chartData.length - 1),
+                        y: 200 - item.average * 20,
+                      }));
+
+                      const linePoints = points
+                        .map((point) => `${point.x},${point.y}`)
+                        .join(" ");
+
+                      const areaPoints = `20,200 ${linePoints} ${points[points.length - 1].x},200`;
+
+                      return (
+                        <>
+                          <polygon
+                            points={areaPoints}
+                            fill="url(#performanceGradient)"
+                          />
+
+                          <polyline
+                            points={linePoints}
+                            fill="none"
+                            stroke="#9b8cff"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+
+                          {points.map((point, index) => (
+                            <g key={chartData[index].id}>
+                              <title>
+                                {`${chartData[index].jobRole || "Interview"} — Average score: ${chartData[index].average}/10`}
+                              </title>
+
+                              <circle
+                                cx={point.x}
+                                cy={point.y}
+                                r="5"
+                                fill="#b4a8ff"
+                                stroke="#171525"
+                                strokeWidth="3"
+                                style={{ cursor: "pointer" }}
+                              />
+                            </g>
+                          ))}
+                        </>
+                      );
+                    })()}
+                  </svg>
+
+                  <div className="chart-x-axis">
+                    {performanceTrend.slice(-6).map((item, index) => (
+                      <span key={item.id} title={item.jobRole || "Interview"}>
+                        {item.jobRole || `Session ${index + 1}`}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="performance-footer">
+                <span>Average score per completed interview</span>
+                <strong>Out of 10</strong>
+              </div>
+            </div>
+          ) : (
+            <div className="performance-empty">
+              <p>Your performance trend will appear here.</p>
+              <span>
+                Complete and evaluate an interview to start tracking your
+                progress.
+              </span>
+            </div>
+          )}
+        </section>
+
         {/* Recent Sessions */}
         <section className="recent-section">
           <div className="section-heading">
@@ -385,6 +604,9 @@ function Dashboard() {
                     typeof question.score === "number",
                 );
 
+                const evaluatedCount = answeredQuestions.length;
+                const totalSessionQuestions = session.questions.length;
+
                 const sessionScore =
                   answeredQuestions.length > 0
                     ? (
@@ -415,9 +637,24 @@ function Dashboard() {
 
                         <p>
                           {session.topic || "General interview"} <span>•</span>{" "}
-                          {session.difficulty} <span>•</span>{" "}
-                          {session.questions.length} questions
+                          {session.difficulty} <span>•</span> {evaluatedCount}/
+                          {totalSessionQuestions} evaluated
                         </p>
+                        <div className="session-progress">
+                          <div className="session-progress-track">
+                            <div
+                              className="session-progress-fill"
+                              style={{
+                                width: `${
+                                  totalSessionQuestions > 0
+                                    ? (evaluatedCount / totalSessionQuestions) *
+                                      100
+                                    : 0
+                                }%`,
+                              }}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
 

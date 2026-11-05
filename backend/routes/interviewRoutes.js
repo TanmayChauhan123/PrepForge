@@ -217,7 +217,14 @@ router.post(
   protect,
   async (req, res) => {
     try {
-      const { userAnswer } = req.body;
+      const { userAnswer, feedbackDetail = "Balanced" } = req.body;
+      const validFeedbackDetails = ["Concise", "Balanced", "Detailed"];
+
+      if (!validFeedbackDetails.includes(feedbackDetail)) {
+        return res.status(400).json({
+          message: "Invalid feedback detail preference",
+        });
+      }
 
       if (!userAnswer || !userAnswer.trim()) {
         return res.status(400).json({
@@ -313,9 +320,15 @@ Return ONLY valid JSON in exactly this format:
 
 Rules:
 - score must be a number between 0 and 10
-- feedback must clearly explain what was done well
-- feedback must mention important missing or incorrect points when applicable
 - feedback must be constructive and useful for improvement
+- Follow the selected feedback detail level: ${feedbackDetail}
+
+Feedback length guidelines:
+- Concise: Give brief, direct feedback in 2-3 sentences. Mention the main strength and the most important improvement.
+- Balanced: Give clear feedback in 4-6 sentences. Explain strengths, missing or incorrect points, and how to improve.
+- Detailed: Give comprehensive feedback in 7-10 sentences. Explain strengths, missing or incorrect concepts, specific corrections, and actionable improvement suggestions.
+- Always mention important mistakes or missing points, regardless of the selected detail level.
+- Do not add unnecessary filler or repeat the candidate's answer.
 - do not return markdown
 - do not return code fences
 - do not include additional fields
@@ -392,6 +405,13 @@ router.post(
   protect,
   async (req, res) => {
     try {
+      const { hintsEnabled = true } = req.body;
+
+      if (hintsEnabled === false) {
+        return res.status(403).json({
+          message: "AI hints are disabled in your preferences",
+        });
+      }
       // Find the session belonging to the logged-in user
       const session = await InterviewSession.findOne({
         _id: req.params.sessionId,
